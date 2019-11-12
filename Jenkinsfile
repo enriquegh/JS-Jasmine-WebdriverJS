@@ -12,7 +12,10 @@ node {
     }
     stage('Run tests') {
         sauce('c19998b0-da3d-474f-b008-ffe93a928c72') {
+          sauceconnect() {
             sh 'npm test'
+          
+          }
         }
     }
 }
