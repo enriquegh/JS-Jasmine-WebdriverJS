@@ -14,7 +14,8 @@ describe('basic test', function () {
 	beforeEach(function () {
 		var browser = process.env.BROWSER,
         version = process.env.VERSION,
-        platform = process.env.PLATFORM,
+		platform = process.env.PLATFORM,
+		tunnelIdentifier = process.env.TUNNEL_IDENTIFIER
         server = "http://" + username + ":" + accessKey +
         "@ondemand.saucelabs.com:80/wd/hub";
 
@@ -24,7 +25,8 @@ describe('basic test', function () {
 		        'platform': platform,
 		        'version': version,
 		        'username': username,
-		        'accessKey': accessKey,
+				'accessKey': accessKey,
+				'tunnelIdentifier': tunnelIdentifier,
 		        'name': jasmine.getEnv().currentSpec.description
 		    }).
 		    usingServer(server).
