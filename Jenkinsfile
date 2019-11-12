@@ -1,21 +1,18 @@
-node('docker') {
-  stage('Checkout') {
-    checkout scm
-  }
-
-  stage('Test') {
-    sauce('saucelabs') {
-      sauceconnect(useGeneratedTunnelIdentifier: true, verboseLogging: true) {
-        withEnv(['HOME=$WORKSPACE']) {
-          docker.image('node:6.6.0').inside {
-            sh 'npm install'
-            sh 'npm run test'
-          }
-        }
-      }
+node {
+    env.NODEJS_HOME = "${tool '8.16'}"
+    env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
+    stage('Checkout Repo') {
+    git branch: 'latest-browsers', changelog: false, poll: false, url: 'https://github.com/enriquegh/JS-Jasmine-WebdriverJS.git'
+    
     }
-  }
-  stage('Collect Results') {
-    step([$class: 'SauceOnDemandTestPublisher'])
-  }
+    stage('Install') {
+        sh 'npm --version'
+        sh 'node --version'
+        sh 'npm install'
+    }
+    stage('Run tests') {
+        sauce('c19998b0-da3d-474f-b008-ffe93a928c72') {
+            sh 'npm test'
+        }
+    }
 }
